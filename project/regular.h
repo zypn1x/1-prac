@@ -1,8 +1,8 @@
 #ifndef REGULAR_H
 #define REGULAR_H
 
-#include <iostream>
 #include <cstring>
+#include <iostream>
 #include <vector>
 
 const size_t inf = 2e9;

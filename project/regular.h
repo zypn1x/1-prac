@@ -1,6 +1,7 @@
 #ifndef REGULAR_H
 #define REGULAR_H
 
+#include <iostream>
 #include <cstring>
 #include <vector>
 
@@ -8,7 +9,7 @@ const size_t inf = 2e9;
 
 class RegularExp {
 private:
-  std::vector<std::vector<size_t> > buffer_;
+  std::vector<std::vector<size_t>> buffer_;
   char x_;
   size_t num_of_;
 
@@ -48,38 +49,34 @@ public:
         buffer_.pop_back();
         prev[0] = 0;
         while (true) {
-        std::vector<size_t> tmp  = prev;
-        for (size_t k = 0; k < num + 1; k++)
-        {
-          for (size_t j = 0; j <= k; ++j) {
-            tmp[k] = std::min(
-                tmp[k], prev[j] + prev[k - j]);
+          std::vector<size_t> tmp = prev;
+          for (size_t k = 0; k < num + 1; k++) {
+            for (size_t j = 0; j <= k; ++j) {
+              tmp[k] = std::min(tmp[k], prev[j] + prev[k - j]);
+            }
           }
-        }
-        bool id = true;
-        for (size_t k = 0; k < num + 1; ++k) {
-          if (tmp[k] != prev[k]){
-            id = false;
+          bool id = true;
+          for (size_t k = 0; k < num + 1; ++k) {
+            if (tmp[k] != prev[k]) {
+              id = false;
+              break;
+            }
+          }
+          if (id) {
             break;
           }
+          prev = std::move(tmp);
         }
-        if (id) {
-          break;
-        }
-        prev = std::move(tmp);
-      }
-      buffer_.emplace_back(prev);
+        buffer_.emplace_back(prev);
       }
     }
   }
 
-  size_t Answer () {
-    return buffer_[buffer_.size() - 1] [num_of_];
-  }
+  size_t Answer() { return buffer_[buffer_.size() - 1][num_of_]; }
 };
 
-  int long long  Answer (const std::string &str, char x, size_t num) {
-    RegularExp reg(str, x, num);
-    return (reg.Answer() != inf ? int(reg.Answer()) : -1);
-  }
+int long long Answer(const std::string &str, char x, size_t num) {
+  RegularExp reg(str, x, num);
+  return (reg.Answer() != inf ? int(reg.Answer()) : -1);
+}
 #endif
